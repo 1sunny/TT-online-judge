@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="one.sunny.ttoj.mapper.ProblemMapper">
+    <resultMap id="ProblemWithTagsMap" type="one.sunny.ttoj.pojo.bo.ProblemWithTagsBo">
+        <id column="problem_id" property="id" jdbcType="BIGINT"></id>
+        <result column="display_id" property="displayId" jdbcType="VARCHAR"></result>
+        <result column="visible" property="visible" jdbcType="TINYINT"></result>
+        <result column="problem_name" property="name" jdbcType="VARCHAR"></result>
+        <result column="description" property="description" jdbcType="LONGVARCHAR"></result>
+        <result column="input" property="input" jdbcType="LONGVARCHAR"></result>
+        <result column="output" property="output" jdbcType="LONGVARCHAR"></result>
+        <result column="hint" property="hint" jdbcType="VARCHAR"></result>
+        <result column="level" property="level" jdbcType="VARCHAR"></result>
+        <result column="time_limit" property="timeLimit" jdbcType="INTEGER"></result>
+        <result column="memory_limit" property="memoryLimit" jdbcType="INTEGER"></result>
+        <result column="languages" property="languages" jdbcType="VARCHAR"></result>
+        <result column="vote" property="vote" jdbcType="INTEGER"></result>
+        <result column="submit_num" property="submitNum" jdbcType="INTEGER"></result>
+        <result column="ac_num" property="acNum" jdbcType="INTEGER"></result>
+        <result column="author_name" property="authorName" jdbcType="VARCHAR"></result>
+        <result column="source" property="source" jdbcType="VARCHAR"></result>
+        <result column="io_mode" property="ioMode" jdbcType="VARCHAR"></result>
+        <result column="create_time" property="createTime" jdbcType="TIME"></result>
+        <result column="deleted" property="deleted" jdbcType="TINYINT"></result>
+        <result column="solution_num" property="solutionNum" jdbcType="INTEGER"></result>
+        <result column="comment_num" property="commentNum" jdbcType="INTEGER"></result>
+        <result column="test_case_dir" property="testCaseDir" jdbcType="VARCHAR"></result>
+        <result column="sample_case" property="sampleCase" jdbcType="VARCHAR"></result>
+        <result column="update_time" property="updateTime" jdbcType="TIME"></result>
+        <result column="author_id" property="authorId" jdbcType="BIGINT"></result>
+        <collection property="tags" ofType="one.sunny.ttoj.entity.ProblemTag">
+            <id column="tag_id" property="id" jdbcType="BIGINT"></id>
+            <result column="tag_name" property="name" jdbcType="VARCHAR"></result>
+            <result column="parent_id" property="parentId" jdbcType="BIGINT"></result>
+            <result column="tag_id" property="tagId" jdbcType="BIGINT"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectProblemWithTagsById" resultMap="ProblemWithTagsMap">
+        SELECT
+        p.id problem_id,
+        p.visible,
+        p.display_id,
+        p.NAME problem_name,
+        p.description,
+        p.input,
+        p.output,
+        p.hint,
+        p.LEVEL,
+        p.time_limit,
+        p.memory_limit,
+        p.languages,
+        p.vote,
+        p.submit_num,
+        p.ac_num,
+        p.author_name,
+        p.source,
+        p.io_mode,
+        p.solution_num,
+        p.comment_num,
+        p.test_case_dir,
+        p.sample_case,
+        p.author_id,
+        pt.id tag_id,
+        pt.NAME tag_name,
+        pt.parent_id,
+        pt.tag_id
+        FROM
+        t_problem p
+        LEFT JOIN t_problem_problem_tag ppt ON ppt.problem_id = p.id
+        LEFT JOIN t_problem_tag pt ON pt.id = ppt.problem_tag_id
+        WHERE
+        p.id = ${problemId}
+    </select>
+</mapper>

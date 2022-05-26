@@ -1,0 +1,12 @@
+nacos-url: 39.103.197.80:8848
+
+spring:
+  application:
+    name: API-OJ
+  cloud:
+    nacos:
+      config:
+        server-addr: ${nacos-url}
+        file-extension: yaml
+      discovery:
+        server-addr: ${nacos-url}

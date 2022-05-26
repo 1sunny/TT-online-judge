@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="one.sunny.ttoj.mapper.ProblemTagMapper">
+
+<!--  public R getProblemTagsByProblemId(Long problemId)  -->
+    <select id="getProblemTagsByProblemId" resultType="one.sunny.ttoj.entity.ProblemTag">
+        select pt.* from t_problem_tag pt,t_problem_problem_tag ppt
+        where ppt.problem_id=#{problemId}
+        and pt.id=ppt.problem_tag_id
+    </select>
+</mapper>

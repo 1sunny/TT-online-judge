@@ -1,0 +1,28 @@
+nacos-url: localhost:8848
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    nacos:
+      config:
+        server-addr: ${nacos-url}
+        file-extension: yaml
+      discovery:
+        server-addr: ${nacos-url}
+
+    gateway:
+      routes:
+        - id: oj_router
+          uri: lb://API-OJ
+          predicates:
+            - Path=/oj/**
+          filters:
+            - StripPrefix=1
+      #跨域配置
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"

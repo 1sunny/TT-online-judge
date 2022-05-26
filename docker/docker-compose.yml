@@ -1,0 +1,96 @@
+version: "3.9"
+
+networks:
+  ttoj-network:
+
+volumes:
+  data:
+  redisdata:
+
+services:
+  nacos:
+    image: nacos/nacos-server:2.0.2
+    ports:
+      - "8848:8848"
+    environment:
+      - "JVM_XMS=256m"
+      - "JVM_XMX=256m"
+      - "MODE=standalone"
+    networks:
+      - ttoj-network
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    networks:
+      - ttoj-network
+    volumes:
+      - data:/var/lib/mysql
+      - ./oj.sql:/docker-entrypoint-initdb.d/oj.sql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=123456"
+      - "MYSQL_DATABASE=oj"
+
+  redis:
+    image: redis:5.0.10
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
+  oj:
+    build:
+      context: ./images/oj
+      dockerfile: Dockerfile
+    ports:
+      - "9991:9991"
+    volumes:
+      - $PWD/judger/test_case:$PWD/judger/test_case
+    depends_on:
+      - mysql
+      - nacos
+      - redis
+
+  gateway:
+    build:
+      context: ./images/gateway
+      dockerfile: Dockerfile
+    ports:
+      - "9990:9990"
+    depends_on:
+      - mysql
+      - nacos
+      - redis
+
+  nginx:
+    image: nginx:1.21.1
+    ports:
+      - "80:80"
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+  judge_server:
+    image: registry.cn-hangzhou.aliyuncs.com/onlinejudge/judge_server
+    read_only: false
+    cap_drop:
+      - SETPCAP
+      - MKNOD
+      - NET_BIND_SERVICE
+      - SYS_CHROOT
+      - SETFCAP
+      - FSETID
+    tmpfs:
+      - /tmp
+    volumes:
+      - $PWD/judger/test_case:/test_case
+      - $PWD/judger/log:/log
+      # - $PWD/server:/code:ro
+      - $PWD/judger/run:/judger
+    environment:
+      - BACKEND_URL=http://localhost:80/api/judge_server_heartbeat
+      - SERVICE_URL=http://judge_server:9000
+      - TOKEN=sunny
+    ports:
+      - "0.0.0.0:9000:8080"

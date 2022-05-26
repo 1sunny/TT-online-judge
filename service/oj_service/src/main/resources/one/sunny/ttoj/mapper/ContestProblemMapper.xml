@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="one.sunny.ttoj.mapper.ContestProblemMapper">
+
+<!--    Problem getProblemByContestIdAndDisplayId(@Param("contestId")Long contestId, @Param("problemDisplayId")String problemDisplayId);-->
+    <select id="getProblemByContestIdAndDisplayId"
+            resultType="one.sunny.ttoj.entity.Problem"
+    >
+        select t_problem.* from t_problem,t_contest_problem
+        <where>
+            t_contest_problem.contest_id = #{contestId}
+            and
+            t_contest_problem.problem_display_id = #{problemDisplayId}
+            and
+            t_problem.id = t_contest_problem.problem_id
+        </where>
+    </select>
+
+<!--
+count本来就是返回一个统计结果，结果只有一个（count(1)的结果不管运行几遍都是22）的时候显然只返回一条数据。
+
+如果返回多条，显然是要使用group by，否则的话就是只返回一条袭。
+
+但是一般情况下，在sql语句里select和count就是要分开实现，即便通过join可能会得到想要的结果，
+但是在逻辑上也很别扭，比如上面返回的count结果–total要在数据库model字段里接受，可能就要多加一个total字段。
+-->
+    <select id="searchProblemsFromArchiveByCondition" resultType="one.sunny.ttoj.entity.Problem">
+        SELECT
+        p.id,
+        p.`name`,
+        p.display_id,
+        p.author_name,
+        p.`visible`
+        FROM
+        t_problem p
+        <where>
+            p.id NOT IN ( SELECT cp.problem_id FROM t_contest_problem cp WHERE cp.contest_id = #{queryParams.contestId} )
+            AND 1 = 1
+            <if test="queryParams.problemName != null and queryParams.problemName != ''">AND p.`name` LIKE CONCAT('%',#{queryParams.problemName},'%')</if>
+            <if test="queryParams.authorName != null and queryParams.authorName != ''">AND p.author_name LIKE CONCAT('%',#{queryParams.authorName},'%')</if>
+            <if test="queryParams.visible != null">AND p.visible = #{queryParams.visible}</if>
+        </where>
+        LIMIT ${(queryParams.currentPage - 1) * queryParams.pageSize}, #{queryParams.pageSize}
+    </select>
+
+</mapper>

@@ -1,0 +1,194 @@
+/* css 全局变量 */
+:root{
+    --deepTextColor: #212835;
+    --greyTextColor: #848B96;
+    --themeColor: #409EFF;
+    --veryEasy:#11eec0;
+    --easy:#2db55d;
+    --medium:#e1b800;
+    --hard:#ef4743;
+    --veryHard:#cc3333;
+    --borderColor: #EBEEF5;
+}
+/**/
+*{
+    margin: 0;
+}
+html,body{
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+body{
+    overflow: auto;
+}
+
+.singleLineEllipsis{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.rounded-lg {
+    border: 1px solid #EBEEF5;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
+    transition: .3s;
+}
+
+.multiLineEllipsis{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+
+.callout {
+    padding: 15px;
+    margin: 10px 0 0 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+/* 修改 iview 原生样式 */
+.ivu-icon{
+
+}
+.ivu-tabs-content{
+    height: 100% !important;
+    flex: 1 1 auto !important;
+}
+.ivu-tabs-bar{
+    margin-bottom: 0 !important;
+}
+.ivu-tabs{
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+}
+/*修改 element-ui 原生样式 */
+.el-menu-item{
+}
+.el-menu.el-menu--horizontal{
+    border: none !important;
+}
+.el-card__header{
+    padding: 8px 10px !important;
+}
+
+.el-card__body{
+    padding: 10px !important;
+}
+
+.el-tabs__header{
+    margin: 0 !important;
+}
+
+.el-card.is-always-shadow{
+    -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1) !important;
+}
+.el-table .cell{
+    /*padding: 5px 5px !important;*/
+}
+.el-table::before{
+    display: none !important;
+}
+.demo-block-control{
+    border-top: 1px solid #eaeefb;
+    height: 44px;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    text-align: center;
+    margin-top: -1px;
+    color: #d3dce6;
+    cursor: pointer;
+    position: relative;
+}
+
+.el-table .el-table__cell{
+    padding: 8px 0 !important;
+}
+/*
+修改导航栏高度
+*/
+.el-menu-item {
+    height: 45px !important;
+    line-height: 45px !important;
+}
+.el-submenu__title{
+    height: 45px !important;
+    line-height: 45px !important;
+}
+/* 修改 codemirror 原生样式 */
+.CodeMirror {
+    border: 1px solid #eee;
+    height: 100% !important;
+    font-size: 16px;
+/*    TODO  */
+}
+/* mavonEditor */
+.v-note-wrapper .v-note-panel .v-note-show .v-show-content{
+    padding: 5px 5px 0 5px !important;
+}
+.hljs{
+    background: none !important;
+}
+.v-note-wrapper{
+    border: none !important;
+}
+/* github-markdown.css */
+.markdown-body{
+    font-size: 14px !important;
+}
+/**/
+.itemTitle {
+    margin: 1em 0;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.itemContent {
+    font-size: 13px;
+}
+.sessionTitle{
+    color: #212835;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.contentTitle{
+    margin-top: 5px;
+    font-size: 14px;
+    line-height: 18px;
+    color: rgba(33,40,53,0.75);
+}
+
+.text-label-2 {
+    color: rgba(38,38,38,.75);
+}
+.font-medium {
+    font-weight: 500;
+}
+/* 修改浏览器滚动条样式 */
+::-webkit-scrollbar{
+    width: 14px !important;
+    height: 14px !important;
+}
+::-webkit-scrollbar-track {
+    background: transparent !important;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #e7e8eb;
+    background-clip: padding-box;
+    border-radius: 0px;
+    outline: none;
+    border-width: 2px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+}
+

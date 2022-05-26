@@ -1,0 +1,90 @@
+mysql-connection-host: localhost
+mysql-connection-port: 3306
+mysql-db-name: oj
+mysql-username: root
+mysql-password: 123456
+
+redis-connection-host: localhost
+redis-connection-port: 6379
+
+nacos-url: localhost:8848
+
+#---------------------------------------------------------------
+
+testCaseSaveLocation: W:/my/ttoj/docker/judger/test_case/
+
+judge:
+  host: 39.103.197.80
+  port: 9000
+#---------------------------------------------------------------
+
+server:
+  port: 9991
+
+spring:
+  application:
+    name: API-OJ
+    cloud:
+      nacos:
+        config:
+          server-addr: ${nacos-url}
+          file-extension: yaml
+        discovery:
+          server-addr: ${nacos-url}
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${mysql-connection-host}:${mysql-connection-port}/${mysql-db-name}?serverTimezone=GMT%2B8&useUnicode=true&amp&characterEncoding=utf-8
+    username: ${mysql-username}
+    password: ${mysql-password}
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  redis:
+    host: ${redis-connection-host}
+    port: ${redis-connection-port}
+    database: 0
+  #  rabbitmq:
+  #    virtual-host: 127.0.0.1
+  #    username: guest
+  #    password: guest
+  #    port: 5672
+  #    listener:
+  #      simple:
+  #        concurrency: 10
+  #        max-concurrency: 10
+  #        prefetch: 1
+  #        auto-startup: true
+  #        default-requeue-rejected: true
+  #        retry:
+  #          enabled: true
+  #          multiplier: 1
+  #    template:
+  #      retry:
+  #        initial-interval: 1000ms
+  #        max-attempts: 3
+  #        max-interval: 10000ms
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 100MB
+
+
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+feign:
+  client:
+    config:
+      default: # 全局配置
+        loggerLevel: BASIC #基本的请求和响应信息
+  httpclient:
+    enabled: true
+    max-connections: 200
+    max-connections-per-route: 50
